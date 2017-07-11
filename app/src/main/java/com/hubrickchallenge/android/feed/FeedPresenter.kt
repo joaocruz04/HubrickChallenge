@@ -1,6 +1,4 @@
-package com.hubrickchallenge.android
-
-import com.hubrickchallenge.android.model.Event
+package com.hubrickchallenge.android.feed
 
 /**
  * Created by joaocruz04 on 10/07/2017.

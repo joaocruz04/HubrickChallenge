@@ -1,8 +1,9 @@
-package com.hubrickchallenge.android
+package com.hubrickchallenge.android.feed
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.hubrickchallenge.android.R
 import com.hubrickchallenge.android.model.Event
 
 /**

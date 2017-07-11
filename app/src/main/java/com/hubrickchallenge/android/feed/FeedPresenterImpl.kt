@@ -1,4 +1,4 @@
-package com.hubrickchallenge.android
+package com.hubrickchallenge.android.feed
 
 import com.hubrickchallenge.android.model.Event
 
