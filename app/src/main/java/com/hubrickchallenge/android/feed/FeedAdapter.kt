@@ -13,7 +13,6 @@ import com.hubrickchallenge.android.model.Event
 class FeedAdapter(eventList: List<Event>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var events = eventList
-    var lastPosition: Int = 0
     var recyclerView: RecyclerView?=null
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {

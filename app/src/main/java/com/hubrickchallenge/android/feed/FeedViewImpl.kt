@@ -4,13 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.hubrickchallenge.android.App
 import com.hubrickchallenge.android.R
-import com.hubrickchallenge.android.managers.FeedConsumer
-import com.hubrickchallenge.android.model.Event
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
-import javax.inject.Inject
 
 
 class FeedViewImpl : FeedView, AppCompatActivity() {

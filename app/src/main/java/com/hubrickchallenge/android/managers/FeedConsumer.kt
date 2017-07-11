@@ -25,7 +25,6 @@ class FeedConsumer {
                 subscribers.forEach { it.onNext(list)}
             }
         }
-
     }
 
 
