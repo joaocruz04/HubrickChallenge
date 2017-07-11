@@ -7,7 +7,7 @@ package com.hubrickchallenge.android.feed
  */
 interface FeedView {
 
-    fun updateData()
+    fun updateData(itemsCount: Int)
 
 
 }

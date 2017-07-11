@@ -9,25 +9,25 @@ import io.reactivex.Observer
  */
 class FeedConsumer {
 
+    private var subscribers: ArrayList<Observer<ArrayList<Event>>> = ArrayList()
+    private var database: DatabaseReference?=null
 
-    var subscribers: ArrayList<Observer<ArrayList<Event>>> = ArrayList()
-
-    var database: DatabaseReference?=null
-    var eventListener = object: ValueEventListener {
-        override fun onCancelled(p0: DatabaseError?) {
-            println("Cancelled")
-        }
-
-        override fun onDataChange(p0: DataSnapshot?) {
-            val events = ArrayList<Event>()
-            p0?.children?.forEach {
-                var event = it.getValue(Event::class.java)
-                if (event!=null) events.add(event)
+    private var childListener = object: ChildEventListener {
+        override fun onCancelled(p0: DatabaseError?) {}
+        override fun onChildMoved(p0: DataSnapshot?, p1: String?) {}
+        override fun onChildChanged(p0: DataSnapshot?, p1: String?) {}
+        override fun onChildRemoved(p0: DataSnapshot?) {}
+        override fun onChildAdded(p0: DataSnapshot?, p1: String?) {
+            var event = p0?.getValue(Event::class.java)
+            if (event!=null) {
+                var list :ArrayList<Event> = ArrayList()
+                list.add(event)
+                subscribers.forEach { it.onNext(list)}
             }
-            subscribers.forEach { it.onNext(events)}
         }
 
     }
+
 
     fun subscribe(observer: Observer<ArrayList<Event>>) {
         if (!subscribers.contains(observer))
@@ -42,13 +42,13 @@ class FeedConsumer {
             stop()
     }
 
-    fun start() {
+    private fun start() {
         database = FirebaseDatabase.getInstance().reference.child("feeds")
-        database?.addValueEventListener(eventListener)
+        database?.addChildEventListener(childListener)
     }
 
-    fun stop() {
-        database?.removeEventListener(eventListener)
+    private fun stop() {
+        database?.removeEventListener(childListener)
     }
 
 }

@@ -6,5 +6,6 @@ package com.hubrickchallenge.android.feed
 interface FeedPresenter {
 
     fun registerView(view: FeedView)
-
+    fun start()
+    fun stop()
 }
