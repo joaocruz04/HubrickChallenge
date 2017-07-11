@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "49035214629",
+    "firebase_url": "https://hubrickchallenge-179af.firebaseio.com",
+    "project_id": "hubrickchallenge-179af",
+    "storage_bucket": "hubrickchallenge-179af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49035214629:android:ea9182cfe065940f",
+        "android_client_info": {
+          "package_name": "com.hubrickchallenge.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49035214629-856fq7kfim8767spn060eunb1qcf67ge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCgYLZhpdAp-bnMaFMx-Q8AhHZ-MHcv6o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
