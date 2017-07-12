@@ -33,8 +33,25 @@ class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
     }
 
     fun updateList(firstList: ArrayList<Event> , newList: ArrayList<Event>) {
-        firstList.addAll(0, newList)
-        view?.updateData(newList.size)
+        var tempArray = ArrayList<Event>()
+
+        newList.forEach {
+            var newItem = it
+            var found = false
+            if (firstList.size>0)
+                for (i in 0..firstList.size-1) {
+                    var oldItem = firstList[i]
+                    if (oldItem.id == newItem.id) {
+                        firstList[i] = newItem
+                        found = true
+                        break
+                    }
+                }
+            if (!found)
+                tempArray.add(0, newItem)
+        }
+        firstList.addAll(0, tempArray)
+        view?.updateData(tempArray.size)
     }
 
     override fun onNext(t: ArrayList<Event>) {

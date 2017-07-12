@@ -16,7 +16,7 @@ class FeedAdapter(eventList: List<Event>?) : RecyclerView.Adapter<RecyclerView.V
     var recyclerView: RecyclerView?=null
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        (holder as FeedViewHolder).bindEvent(events!![position])
+        (holder as FeedViewHolder).bindEvent(events!![position], recyclerView!!.context)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
@@ -30,7 +30,8 @@ class FeedAdapter(eventList: List<Event>?) : RecyclerView.Adapter<RecyclerView.V
 
     fun update(position: Int, newItemsCount: Int, offset: Int) {
         notifyDataSetChanged()
-        (recyclerView?.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position+newItemsCount, offset)
+        if (newItemsCount>0)
+            (recyclerView?.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position+newItemsCount, offset)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
