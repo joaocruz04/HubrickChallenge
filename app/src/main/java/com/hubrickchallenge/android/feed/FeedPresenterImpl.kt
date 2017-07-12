@@ -13,8 +13,9 @@ import javax.inject.Inject
  */
 class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
 
+
     var view: FeedView?=null
-    var events: ArrayList<Event> = ArrayList()
+    var mEvents: ArrayList<Event> = ArrayList()
 
     @Inject
     lateinit var feedConsumer: FeedConsumer
@@ -22,7 +23,7 @@ class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
     override fun registerView(view: FeedView) {
         this.view = view
         App.getInstance().appComponent.inject(this)
-        events = ArrayList()
+        mEvents = ArrayList()
     }
 
     override fun start() {
@@ -33,6 +34,10 @@ class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
         feedConsumer.unsubscribe(this)
     }
 
+    override fun getEvents(): ArrayList<Event> {
+        return mEvents
+    }
+
     override fun countBubbleClicked() {
         view?.hideCountTooltip()
         view?.showTop()
@@ -40,25 +45,26 @@ class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
 
     fun updateList(firstList: ArrayList<Event>, newList: ArrayList<Event>): Int {
         var tempArray = ArrayList<Event>()
-
         newList.forEach {
             var newItem = it
             var found = false
             if (firstList.size>0)
                 for (i in 0..firstList.size-1) {
                     var oldItem = firstList[i]
-                    if (oldItem.id == newItem.id) {
+                    if (oldItem.id == newItem.id && isValidType(newItem)) {
                         firstList[i] = newItem
                         found = true
                         break
                     }
                 }
-            if (!found)
+            if (!found && newItem.type=="ADD")
                 tempArray.add(0, newItem)
         }
         firstList.addAll(0, tempArray)
         return tempArray.size
     }
+
+
 
     fun notifyViewOfDataChanges(changedCount: Int) {
         var positionAndOffset = view?.getCurrentPositionAndOffset()
@@ -70,7 +76,7 @@ class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
 
 
     override fun onNext(t: ArrayList<Event>) {
-        var count = updateList(events, t)
+        var count = updateList(mEvents, t)
         notifyViewOfDataChanges(count)
     }
 
@@ -78,4 +84,11 @@ class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
     override fun onSubscribe(d: Disposable?) {}
     override fun onError(e: Throwable?) { println("oops!") }
 
+
+    fun isValidType(event: Event?): Boolean {
+        val type = event?.type?:null
+        return (type == "ADD" ||
+                type == "DELETE" ||
+                type == "UPDATE")
+    }
 }

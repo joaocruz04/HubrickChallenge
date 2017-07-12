@@ -7,23 +7,26 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import com.hubrickchallenge.android.App
 import com.hubrickchallenge.android.R
-import java.lang.Math.abs
+import javax.inject.Inject
 
 
 class FeedViewImpl : FeedView, AppCompatActivity() {
 
+    @Inject
+    lateinit var presenter : FeedPresenter
+
     var recyclerView: RecyclerView? = null
-    var presenter = FeedPresenterImpl()
     var adapter: FeedAdapter?=null
     var tooltip: TextView?=null
     var handler: Handler = Handler()
-
     var hideRunnable = Runnable { hideCountTooltip() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed_view_impl)
+        App.getInstance().appComponent.inject(this)
         recyclerView = findViewById(R.id.recyclerView) as RecyclerView
         tooltip = findViewById(R.id.tooltip) as TextView
         tooltip?.setOnClickListener { countBubbleClick() }
@@ -33,7 +36,7 @@ class FeedViewImpl : FeedView, AppCompatActivity() {
 
     fun setupRecyclerView() {
         recyclerView?.layoutManager = CustomLinearLayoutManager(this)
-        adapter = FeedAdapter(presenter.events)
+        adapter = FeedAdapter(presenter.getEvents())
         adapter?.setHasStableIds(true)
         recyclerView?.adapter = adapter
     }
@@ -50,8 +53,6 @@ class FeedViewImpl : FeedView, AppCompatActivity() {
 
     override fun updateData(newItemsCount: Int) {
         var positionAndOffset = getCurrentPositionAndOffset()
-        //if (position>0 || abs(offset)>10)
-            //showCountTooltip(newItemsCount, 3000)
         adapter?.update(positionAndOffset.first, newItemsCount, positionAndOffset.second)
     }
 

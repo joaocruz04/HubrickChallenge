@@ -17,4 +17,5 @@ interface AppComponent {
 
     fun inject(app: App)
     fun inject(feedPresenterImpl: FeedPresenterImpl)
+    fun inject(feedViewImpl: FeedViewImpl)
 }

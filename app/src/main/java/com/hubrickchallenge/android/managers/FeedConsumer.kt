@@ -7,10 +7,11 @@ import io.reactivex.Observer
 /**
  * Created by joaocruz04 on 11/07/2017.
  */
-class FeedConsumer {
+class FeedConsumer(dbRef: DatabaseReference?) {
 
     private var subscribers: ArrayList<Observer<ArrayList<Event>>> = ArrayList()
-    private var database: DatabaseReference?=null
+    private var database: DatabaseReference? = dbRef
+    private var hasStarted = false
 
     private var childListener = object: ChildEventListener {
         override fun onCancelled(p0: DatabaseError?) {}
@@ -28,30 +29,40 @@ class FeedConsumer {
     }
 
 
-    fun subscribe(observer: Observer<ArrayList<Event>>) {
-        if (!subscribers.contains(observer))
-            subscribers.add(observer)
-        if (subscribers.size == 1)
-            start()
+    fun subscribe(observer: Observer<ArrayList<Event>>?) {
+        if (observer!=null) {
+            if (!subscribers.contains(observer)) {
+                subscribers.add(observer)
+                if (subscribers.size == 1)
+                    start()
+            }
+        }
     }
 
-    fun unsubscribe(observer: Observer<ArrayList<Event>>) {
-        subscribers.remove(observer)
-        if (subscribers.size==0)
-            stop()
+    fun unsubscribe(observer: Observer<ArrayList<Event>>?) {
+        if (observer!=null) {
+            var removed = subscribers.remove(observer)
+            if (removed && subscribers.size == 0)
+                stop()
+        }
     }
 
     private fun start() {
-        database = FirebaseDatabase.getInstance().reference.child("feeds")
+        hasStarted = true
         database?.addChildEventListener(childListener)
     }
 
     private fun stop() {
+        hasStarted = false
         database?.removeEventListener(childListener)
     }
 
     fun subscriberCount(): Int {
         return subscribers.size
+    }
+
+    fun started(): Boolean {
+        return hasStarted
     }
 
 }
