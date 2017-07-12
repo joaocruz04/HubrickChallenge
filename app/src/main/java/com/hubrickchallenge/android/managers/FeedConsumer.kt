@@ -10,6 +10,7 @@ import io.reactivex.Observer
 class FeedConsumer(dbRef: DatabaseReference?) {
 
     private var subscribers: ArrayList<Observer<ArrayList<Event>>> = ArrayList()
+    private var appSubscriber: Observer<ArrayList<Event>>?=null
     private var database: DatabaseReference? = dbRef
     private var hasStarted = false
 
@@ -23,28 +24,42 @@ class FeedConsumer(dbRef: DatabaseReference?) {
             if (event!=null) {
                 var list :ArrayList<Event> = ArrayList()
                 list.add(event)
+                appSubscriber?.onNext(list)
                 subscribers.forEach { it.onNext(list)}
+
             }
         }
     }
 
+    fun appSubscribe(observer: Observer<ArrayList<Event>>?) {
+        if (observer!=null) {
+            appSubscriber = observer
+        }
+    }
+
+    fun appUnsubscribe() {
+        appSubscriber = null
+    }
 
     fun subscribe(observer: Observer<ArrayList<Event>>?) {
         if (observer!=null) {
             if (!subscribers.contains(observer)) {
                 subscribers.add(observer)
                 if (subscribers.size == 1)
-                    start()
+                    restart()
             }
         }
     }
 
     fun unsubscribe(observer: Observer<ArrayList<Event>>?) {
         if (observer!=null) {
-            var removed = subscribers.remove(observer)
-            if (removed && subscribers.size == 0)
-                stop()
+            subscribers.remove(observer)
         }
+    }
+
+    private fun restart() {
+        stop()
+        start()
     }
 
     private fun start() {

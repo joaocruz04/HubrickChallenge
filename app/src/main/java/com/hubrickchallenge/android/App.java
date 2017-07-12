@@ -47,7 +47,7 @@ public class App extends Application implements Observer<ArrayList<Event>> {
                 .build();
         appComponent.inject(this);
 
-        feedConsumer.subscribe(this);
+        feedConsumer.appSubscribe(this);
     }
 
     public static App getInstance() {
@@ -62,7 +62,7 @@ public class App extends Application implements Observer<ArrayList<Event>> {
 
     @Override
     public void onNext(ArrayList<Event> events) {
-        if (feedConsumer.subscriberCount()==1) {
+        if (feedConsumer.subscriberCount()==0) {
             String title = events.size()>1 ? "New activity from friends" : events.get(0).getAuthor().getDisplayName();
             String message = events.size()>1 ? "Some of your friends posted something. Check that now!" : events.get(0).getPayload().getPlainContentPreview();
             sendNotification(title, message);
@@ -73,6 +73,7 @@ public class App extends Application implements Observer<ArrayList<Event>> {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(android.R.drawable.ic_input_add)
                 .setContentTitle(title)
+                .setAutoCancel(true)
                 .setContentText(message);
         Intent resultIntent = new Intent(this, FeedViewImpl.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -92,5 +93,7 @@ public class App extends Application implements Observer<ArrayList<Event>> {
     @Override
     public void onComplete() {}
     @Override
-    public void onSubscribe(Disposable d) {}
+    public void onSubscribe(Disposable d) {
+        System.out.println("APP SUBSCRIBED TO FEED CONSUMER");
+    }
 }

@@ -46,14 +46,14 @@ class FeedViewImpl : FeedView, AppCompatActivity() {
     }
 
     override fun getCurrentPositionAndOffset(): Pair<Int, Int> {
-        var position = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-        var offset = ((recyclerView?.layoutManager as LinearLayoutManager).findViewByPosition(position))?.top?:0
+        val position = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+        val offset = ((recyclerView?.layoutManager as LinearLayoutManager).findViewByPosition(position))?.top?:0
         return Pair(position, offset)
     }
 
-    override fun updateData(newItemsCount: Int) {
-        var positionAndOffset = getCurrentPositionAndOffset()
-        adapter?.update(positionAndOffset.first, newItemsCount, positionAndOffset.second)
+    override fun updateData(itemsCount: Int) {
+        val positionAndOffset = getCurrentPositionAndOffset()
+        adapter?.update(positionAndOffset.first, itemsCount, positionAndOffset.second)
     }
 
     override fun onResume() {
@@ -68,7 +68,7 @@ class FeedViewImpl : FeedView, AppCompatActivity() {
 
     override fun showCountTooltip(count: Int, duration: Long) {
         handler.removeCallbacksAndMessages(null)
-        tooltip?.text = "NEW ${count} ITEMS"
+        tooltip?.text = "NEW $count ITEMS"
         tooltip?.visibility = View.VISIBLE
         handler.postDelayed(hideRunnable, duration)
     }

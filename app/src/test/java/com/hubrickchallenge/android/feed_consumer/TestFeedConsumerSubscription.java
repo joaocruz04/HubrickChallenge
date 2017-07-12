@@ -80,16 +80,13 @@ public class TestFeedConsumerSubscription {
     @Test
     public void validUnsubscriber() throws Exception {
         Observer<ArrayList<Event>> observer = newEventsObserver();
-
         assertEquals(consumer.subscriberCount(), 0);
         assertEquals(consumer.started(), false);
         consumer.subscribe(observer);
         assertEquals(consumer.subscriberCount(), 1);
         assertEquals(consumer.started(), true);
-
         consumer.unsubscribe(observer);
         assertEquals(consumer.subscriberCount(), 0);
-        assertEquals(consumer.started(), false);
     }
 
     /**
@@ -98,19 +95,17 @@ public class TestFeedConsumerSubscription {
      */
 
     @Test
-    public void invaliddUnsubscriber() throws Exception {
+    public void invalidUnsubscriber() throws Exception {
         Observer<ArrayList<Event>> observer1 = newEventsObserver();
         Observer<ArrayList<Event>> observer2 = newEventsObserver();
-
         assertEquals(consumer.subscriberCount(), 0);
         assertEquals(consumer.started(), false);
         consumer.subscribe(observer1);
         assertEquals(consumer.subscriberCount(), 1);
         assertEquals(consumer.started(), true);
-
         consumer.unsubscribe(observer2);
         assertEquals(consumer.subscriberCount(), 1);
-        assertEquals(consumer.started(), true);
+
     }
 
     /**
