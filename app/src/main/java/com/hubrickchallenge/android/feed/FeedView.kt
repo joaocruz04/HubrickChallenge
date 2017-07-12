@@ -8,6 +8,7 @@ package com.hubrickchallenge.android.feed
 interface FeedView {
 
     fun updateData(itemsCount: Int)
-
-
+    fun showCountTooltip(count: Int, duration: Long)
+    fun hideCountTooltip()
+    fun showTop()
 }

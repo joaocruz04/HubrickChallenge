@@ -32,7 +32,12 @@ class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
         feedConsumer.unsubscribe(this)
     }
 
-    fun updateList(firstList: ArrayList<Event> , newList: ArrayList<Event>) {
+    override fun countBubbleClicked() {
+        view?.hideCountTooltip()
+        view?.showTop()
+    }
+
+    fun updateList(firstList: ArrayList<Event>, newList: ArrayList<Event>) {
         var tempArray = ArrayList<Event>()
 
         newList.forEach {

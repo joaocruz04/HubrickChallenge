@@ -44,4 +44,11 @@ class FeedAdapter(eventList: List<Event>?) : RecyclerView.Adapter<RecyclerView.V
         super.onAttachedToRecyclerView(recyclerView)
         this.recyclerView = recyclerView
     }
+
+    fun scrollToTop() {
+        var position = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+        if (position>5)
+            (recyclerView?.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(5, 0)
+        (recyclerView?.layoutManager as LinearLayoutManager).smoothScrollToPosition(recyclerView, null, 0)
+    }
 }

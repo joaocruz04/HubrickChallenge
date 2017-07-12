@@ -8,4 +8,5 @@ interface FeedPresenter {
     fun registerView(view: FeedView)
     fun start()
     fun stop()
+    fun countBubbleClicked()
 }
