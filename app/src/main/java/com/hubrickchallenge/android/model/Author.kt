@@ -7,11 +7,11 @@ package com.hubrickchallenge.android.model
 class Author {
     var name: String?=null
     var displayName: String?=null
-    var avatarImage: AvatarImage?=null
+    var avatarImage: ImageResource?=null
 
     constructor(){}
 
-    constructor(name: String?, displayName: String?, avatarImage: AvatarImage?) {
+    constructor(name: String?, displayName: String?, avatarImage: ImageResource?) {
         this.name = name
         this.displayName = displayName
         this.avatarImage = avatarImage

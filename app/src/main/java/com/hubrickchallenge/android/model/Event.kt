@@ -11,4 +11,5 @@ class Event {
     var type: String? = null
     var id: String? = null
     var author: Author? = null
+    var payload: Payload? = null
 }

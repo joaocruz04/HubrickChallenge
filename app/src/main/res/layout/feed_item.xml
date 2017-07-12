@@ -9,12 +9,13 @@
     <LinearLayout
         android:id="@+id/card_bg"
         android:background="#FFFFFF"
+        android:paddingBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:orientation="vertical">
 
 
         <LinearLayout
-            android:padding="10dp"
+            android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
 
@@ -35,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -43,8 +44,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
-                    android:text="(date)"
-                    android:textSize="16sp" />
+                    android:text="moments ago"
+                    android:textColor="#BBBBBB"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -55,14 +57,21 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="120dp" />
+            android:scaleType="centerCrop"
+            android:layout_height="190dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:orientation="vertical">
 
         <TextView
             android:id="@+id/titleLbl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="20sp"
             />
 
         <TextView
@@ -70,8 +79,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            android:layout_marginTop="5dp"
             />
+        </LinearLayout>
 
+        <LinearLayout
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:gravity="left|center_vertical">
+
+
+            <ImageView
+                android:padding="2dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/heart"
+                android:tint="#BBBBBB"
+                />
+
+            <TextView
+                android:id="@+id/likeCountLbl"
+                android:minWidth="40dp"
+                android:textColor="#BBBBBB"
+                android:text="0"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+            <ImageView
+                android:padding="2dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/chat"
+                android:tint="#BBBBBB"
+                />
+
+            <TextView
+                android:id="@+id/commentCountLbl"
+                android:minWidth="40dp"
+                android:textColor="#BBBBBB"
+                android:text="0"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/retweet"
+                android:tint="#BBBBBB"
+                />
+
+            <TextView
+                android:id="@+id/shareCountLbl"
+                android:minWidth="40dp"
+                android:textColor="#BBBBBB"
+                android:text="0"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.TransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.hubrickchallenge.android.R
 import com.hubrickchallenge.android.model.Event
@@ -25,16 +26,17 @@ class FeedViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
     var authorLbl: TextView? = itemView?.findViewById(R.id.authorNameLbl) as TextView
     var dateLbl: TextView? = itemView?.findViewById(R.id.dateLbl) as TextView
     var cardLayout: LinearLayout? = itemView?.findViewById(R.id.card_bg) as LinearLayout
+    var likeCountLbl: TextView? = itemView?.findViewById(R.id.likeCountLbl) as TextView
+    var shareCountLbl: TextView? = itemView?.findViewById(R.id.shareCountLbl) as TextView
+    var commentCountLbl: TextView? = itemView?.findViewById(R.id.commentCountLbl) as TextView
 
     fun bindEvent(event: Event, context: Context) {
         authorLbl?.text = event.author?.displayName?:"?"
         when(event.type) {
             "ADD" -> {
-                cardLayout?.setBackgroundColor(Color.WHITE)
                 cardLayout?.alpha = 1.0F
             }
             "UPDATE" -> {
-                cardLayout?.setBackgroundColor(Color.GREEN)
                 cardLayout?.alpha = 1.0F
             }
             "DELETE" -> {
@@ -42,10 +44,20 @@ class FeedViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
             }
         }
 
+        titleLbl?.text = event.payload?.plainTitle?:""
+        descriptionLbl?.text = event.payload?.plainContentPreview?:""
+        likeCountLbl?.text = "" + event.payload?.stats?.reactionStats?.counts?.LIKE
+        shareCountLbl?.text = "" + event.payload?.stats?.reactionStats?.counts?.SHARE
+        commentCountLbl?.text = "" + event.payload?.stats?.commentStats?.count
+
         Glide.with(context)
                 .load(event.author?.avatarImage?.url?:"")
                 .apply(RequestOptions.circleCropTransform())
                 .into(avatarImageView)
+
+        Glide.with(context)
+                .load(event.payload?.headlineImage?.url?:"")
+                .into(imageView)
     }
 
 
