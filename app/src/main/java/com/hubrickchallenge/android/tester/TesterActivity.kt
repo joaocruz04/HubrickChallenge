@@ -110,6 +110,7 @@ class TesterActivity : AppCompatActivity() {
         event.type = "DELETE"
         event.id = id
         event.author = author
+        event.payload = payloadNormal
         event.payload?.stats = stat
         authors[pos-1] = Triple(id, author, stat)
         pushEvent(event)

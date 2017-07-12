@@ -32,6 +32,7 @@ class FeedViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
     fun bindEvent(event: Event, context: Context) {
         authorLbl?.text = event.author?.displayName?:"?"
+
         when(event.type) {
             "ADD" -> {
                 cardLayout?.alpha = 1.0F
