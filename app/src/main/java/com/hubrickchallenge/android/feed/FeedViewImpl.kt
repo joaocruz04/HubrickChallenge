@@ -12,7 +12,7 @@ import java.lang.Math.abs
 
 
 class FeedViewImpl : FeedView, AppCompatActivity() {
-    
+
     var recyclerView: RecyclerView? = null
     var presenter = FeedPresenterImpl()
     var adapter: FeedAdapter?=null
@@ -36,19 +36,23 @@ class FeedViewImpl : FeedView, AppCompatActivity() {
         adapter = FeedAdapter(presenter.events)
         adapter?.setHasStableIds(true)
         recyclerView?.adapter = adapter
-
     }
 
     override fun showTop() {
         adapter?.scrollToTop()
     }
 
-    override fun updateData(newItemsCount: Int) {
+    override fun getCurrentPositionAndOffset(): Pair<Int, Int> {
         var position = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
         var offset = ((recyclerView?.layoutManager as LinearLayoutManager).findViewByPosition(position))?.top?:0
-        if (position>0 || abs(offset)>10)
-            showCountTooltip(newItemsCount, 3000)
-        adapter?.update(position, newItemsCount, offset)
+        return Pair(position, offset)
+    }
+
+    override fun updateData(newItemsCount: Int) {
+        var positionAndOffset = getCurrentPositionAndOffset()
+        //if (position>0 || abs(offset)>10)
+            //showCountTooltip(newItemsCount, 3000)
+        adapter?.update(positionAndOffset.first, newItemsCount, positionAndOffset.second)
     }
 
     override fun onResume() {

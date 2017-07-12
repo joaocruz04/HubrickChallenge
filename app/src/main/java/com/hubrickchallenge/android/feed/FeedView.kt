@@ -11,4 +11,5 @@ interface FeedView {
     fun showCountTooltip(count: Int, duration: Long)
     fun hideCountTooltip()
     fun showTop()
+    fun getCurrentPositionAndOffset(): Pair<Int, Int>
 }

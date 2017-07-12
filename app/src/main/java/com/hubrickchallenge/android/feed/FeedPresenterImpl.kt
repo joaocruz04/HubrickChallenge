@@ -5,6 +5,7 @@ import com.hubrickchallenge.android.managers.FeedConsumer
 import com.hubrickchallenge.android.model.Event
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import java.lang.Math.abs
 import javax.inject.Inject
 
 /**
@@ -37,7 +38,7 @@ class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
         view?.showTop()
     }
 
-    fun updateList(firstList: ArrayList<Event>, newList: ArrayList<Event>) {
+    fun updateList(firstList: ArrayList<Event>, newList: ArrayList<Event>): Int {
         var tempArray = ArrayList<Event>()
 
         newList.forEach {
@@ -56,11 +57,21 @@ class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
                 tempArray.add(0, newItem)
         }
         firstList.addAll(0, tempArray)
-        view?.updateData(tempArray.size)
+        return tempArray.size
     }
 
+    fun notifyViewOfDataChanges(changedCount: Int) {
+        var positionAndOffset = view?.getCurrentPositionAndOffset()
+        if (positionAndOffset?.first?:0>0 || abs(positionAndOffset?.second?:0)>10){
+            view?.showCountTooltip(changedCount, 3000)
+        }
+        view?.updateData(changedCount)
+    }
+
+
     override fun onNext(t: ArrayList<Event>) {
-        updateList(events, t)
+        var count = updateList(events, t)
+        notifyViewOfDataChanges(count)
     }
 
     override fun onComplete() {}

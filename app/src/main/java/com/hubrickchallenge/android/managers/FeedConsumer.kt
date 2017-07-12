@@ -50,4 +50,8 @@ class FeedConsumer {
         database?.removeEventListener(childListener)
     }
 
+    fun subscriberCount(): Int {
+        return subscribers.size
+    }
+
 }
