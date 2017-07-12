@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.hubrickchallenge.android.R
 import com.hubrickchallenge.android.model.Event
+import java.lang.Math.abs
 
 /**
  * Created by joaocruz04 on 10/07/2017.
@@ -28,10 +29,15 @@ class FeedAdapter(eventList: List<Event>?) : RecyclerView.Adapter<RecyclerView.V
         return events?.size?:0
     }
 
+    override fun getItemId(position: Int): Long {
+        return events?.get(position)?.hashCode()?.toLong()?:0L
+    }
+
     fun update(position: Int, newItemsCount: Int, offset: Int) {
         notifyDataSetChanged()
-        if (newItemsCount>0)
-            (recyclerView?.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position+newItemsCount, offset)
+        if ((newItemsCount>0) && !((position==0 && abs(offset)<10))) {
+            (recyclerView?.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position + newItemsCount, offset)
+        }
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {

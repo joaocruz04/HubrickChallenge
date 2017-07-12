@@ -28,11 +28,12 @@ class FeedViewImpl : FeedView, AppCompatActivity() {
     fun setupRecyclerView() {
         recyclerView?.layoutManager = LinearLayoutManager(this)
         adapter = FeedAdapter(presenter.events)
+        adapter?.setHasStableIds(true)
         recyclerView?.adapter = adapter
     }
 
     override fun updateData(newItemsCount: Int) {
-        var position = (recyclerView?.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+        var position = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
         var offset = ((recyclerView?.layoutManager as LinearLayoutManager).findViewByPosition(position))?.top?:0
         adapter?.update(position, newItemsCount, offset)
 
