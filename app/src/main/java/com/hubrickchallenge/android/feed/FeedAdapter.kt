@@ -15,6 +15,7 @@ class FeedAdapter(eventList: List<Event>?) : RecyclerView.Adapter<RecyclerView.V
 
     var events = eventList
     var recyclerView: RecyclerView?=null
+    var lm: LinearLayoutManager?=null
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         (holder as FeedViewHolder).bindEvent(events!![position], recyclerView!!.context)
@@ -36,19 +37,20 @@ class FeedAdapter(eventList: List<Event>?) : RecyclerView.Adapter<RecyclerView.V
     fun update(position: Int, newItemsCount: Int, offset: Int) {
         notifyDataSetChanged()
         if ((newItemsCount>0) && !((position==0 && abs(offset)<10))) {
-            (recyclerView?.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position + newItemsCount, offset)
+            lm?.scrollToPositionWithOffset(position + newItemsCount, offset)
         }
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
         super.onAttachedToRecyclerView(recyclerView)
         this.recyclerView = recyclerView
+        lm = recyclerView?.layoutManager as LinearLayoutManager
     }
 
     fun scrollToTop() {
-        var position = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+        val position = lm?.findFirstVisibleItemPosition()?:0
         if (position>5)
-            (recyclerView?.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(5, 0)
-        (recyclerView?.layoutManager as LinearLayoutManager).smoothScrollToPosition(recyclerView, null, 0)
+            lm?.scrollToPositionWithOffset(5, 0)
+        lm?.smoothScrollToPosition(recyclerView, null, 0)
     }
 }

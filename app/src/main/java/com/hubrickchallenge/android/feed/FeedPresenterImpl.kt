@@ -47,28 +47,27 @@ class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
         var tempArray = ArrayList<Event>()
         newList.forEach {
             var newItem = it
-            var found = false
-            if (firstList.size>0)
-                for (i in 0..firstList.size-1) {
-                    var oldItem = firstList[i]
-                    if (oldItem.id == newItem.id && isValidType(newItem)) {
-                        firstList[i] = newItem
-                        found = true
-                        break
-                    }
-                }
-            if (!found && newItem.type=="ADD")
-                tempArray.add(0, newItem)
+            if (isValidType(newItem)) {
+                val obj = firstList.firstOrNull { it.id == newItem.id }
+                if (obj != null)
+                    updateEventFromNewEvent(obj, newItem)
+                else if (newItem.type == "ADD")
+                    tempArray.add(0, newItem)
+            }
         }
         firstList.addAll(0, tempArray)
         return tempArray.size
     }
 
-
+    fun updateEventFromNewEvent(originalEvent: Event, newEvent: Event) {
+        originalEvent.payload = newEvent.payload
+        originalEvent.type = newEvent.type
+        originalEvent.author = newEvent.author
+    }
 
     fun notifyViewOfDataChanges(changedCount: Int) {
         var positionAndOffset = view?.getCurrentPositionAndOffset()
-        if (positionAndOffset?.first?:0>0 || abs(positionAndOffset?.second?:0)>10){
+        if (changedCount>0 && (positionAndOffset?.first?:0>0 || abs(positionAndOffset?.second?:0)>10)){
             view?.showCountTooltip(changedCount, 3000)
         }
         view?.updateData(changedCount)
@@ -82,11 +81,11 @@ class FeedPresenterImpl : FeedPresenter, Observer<ArrayList<Event>> {
 
     override fun onComplete() {}
     override fun onSubscribe(d: Disposable?) {}
-    override fun onError(e: Throwable?) { println("oops!") }
+    override fun onError(e: Throwable?) {}
 
 
     fun isValidType(event: Event?): Boolean {
-        val type = event?.type?:null
+        val type = event?.type
         return (type == "ADD" ||
                 type == "DELETE" ||
                 type == "UPDATE")

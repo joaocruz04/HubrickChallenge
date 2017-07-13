@@ -41,12 +41,10 @@ public class App extends Application implements Observer<ArrayList<Event>> {
     public void onCreate() {
         super.onCreate();
         instance = this;
-
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule())
                 .build();
         appComponent.inject(this);
-
         feedConsumer.appSubscribe(this);
     }
 
