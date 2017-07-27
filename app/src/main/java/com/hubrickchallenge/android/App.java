@@ -1,23 +1,18 @@
 package com.hubrickchallenge.android;
 
 import android.app.Application;
-
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-
 import com.hubrickchallenge.android.dagger.AppComponent;
 import com.hubrickchallenge.android.dagger.AppModule;
-
 import com.hubrickchallenge.android.dagger.DaggerAppComponent;
 import com.hubrickchallenge.android.feed.FeedViewImpl;
 import com.hubrickchallenge.android.managers.FeedConsumer;
 import com.hubrickchallenge.android.model.Event;
-
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -51,7 +46,6 @@ public class App extends Application implements Observer<ArrayList<Event>> {
     public static App getInstance() {
         return instance;
     }
-
     public AppComponent getAppComponent() {
         return appComponent;
     }
