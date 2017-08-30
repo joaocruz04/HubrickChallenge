@@ -1,7 +1,7 @@
-Hubrick Challenge
+Kotlin Sample Feed
 ============
 
-Android+Kotlin implementation of the Hubrick's feed challenge. This project comes with a tester app to popuplate the database in real time, so the use of two devices/simulators is recommended.
+Android+Kotlin implementation of a Firebase based feed. This project comes with a tester app to popuplate the database in real time, so the use of two devices/simulators is recommended.
 
 ### Setup ###
 
